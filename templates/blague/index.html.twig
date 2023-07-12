@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Blague index{% endblock %}
+
+{% block body %}
+<h1>Blague index</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Blague</th>
+            <th>Catégorie</th>
+            <th>CreatedAt</th>
+            <th>UpdatedAt</th>
+            <th>CreatedBy</th>
+            <th>UpdatedBy</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for blague in blagues %}
+        <tr>
+            <td>{{ blague.id }}</td>
+            <td>{{ blague.blague }}</td>
+            <td>{{ blague.categorie }}</td>
+            <td>{{ blague.createdAt ? blague.createdAt|date('d-m-Y H:i:s') : '' }}</td>
+            <td>{{ blague.updatedAt ? blague.updatedAt|date('d-m-Y H:i:s') : '' }}</td>
+            <td>{{ blague.createdBy ? blague.createdBy.getUsername() : 'Inconnu' }}</td>
+            <td>{{ blague.updatedBy ? blague.updatedBy.getUsername() : 'Inconnu' }}</td>
+            <td>
+                <a href="{{ path('app_blague_show', {'id': blague.id}) }}" class="btn btn-warning">Show</a>
+                {% if app.user %}
+                <a href="{{ path('app_blague_edit', {'id': blague.id}) }}" class="btn btn-warning">Edit</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="3">no records found</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% if app.user %}
+<a href="{{ path('app_blague_new') }}" class="btn btn-success">Ajouter</a>
+{% endif %}
+{% endblock %}

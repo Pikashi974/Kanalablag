@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Categorie index{% endblock %}
+
+{% block body %}
+    <h1>Categorie index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>CreatedBy</th>
+                <th>UpdatedBy</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for categorie in categories %}
+            <tr>
+                <td>{{ categorie.id }}</td>
+                <td>{{ categorie.nom }}</td>
+                <td>{{ categorie.createdAt ? categorie.createdAt|date('d-m-Y H:i:s') : '' }}</td>
+                <td>{{ categorie.updatedAt ? categorie.updatedAt|date('d-m-Y H:i:s') : '' }}</td>
+                <td>{{ categorie.createdBy ? categorie.createdBy.getUsername() : 'Inconnu' }}</td>
+                <td>{{ categorie.updatedBy ? categorie.updatedBy.getUsername() : 'Inconnu' }}</td>
+                <td>
+                    <a href="{{ path('app_categorie_show', {'id': categorie.id}) }}" class="btn btn-warning">Show</a>
+                    {% if app.user %}
+                    <a href="{{ path('app_categorie_edit', {'id': categorie.id}) }}" class="btn btn-warning">Edit</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% if app.user %}
+    <a href="{{ path('app_categorie_new') }}" class="btn btn-success">Ajouter</a>
+    {% endif %}
+{% endblock %}
